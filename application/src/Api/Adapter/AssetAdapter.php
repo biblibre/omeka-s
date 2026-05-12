@@ -42,21 +42,112 @@ class AssetAdapter extends AbstractEntityAdapter
     }
 
     public function buildQuery(QueryBuilder $qb, array $query)
-    {
-        if (!empty($query['fulltext_search'])) {
-            //faire un trim ?
-            $trimmedSearchTerm = trim($query['fulltext_search']);
-            if ($trimmedSearchTerm !== '') {
-                $searchTerm = '%' . $trimmedSearchTerm . '%';
+    { if (isset($query['fulltext_search']) && trim($query['fulltext_search']) !== '') {
+            $searchTerm = trim($query['fulltext_search']);
+            
+            $param = $qb->createNamedParameter('%' . $searchTerm . '%'); // " Paris "
 
-                // $searchTerm = '%' . $query['fulltext_search'] . '%'; si sans le trim
-                $expr = $qb->createNamedParameter($searchTerm);
-
-                $qb->andWhere(
-                    $qb->expr()->like('omeka_root.name', $expr)
-                );
-            }
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->like('omeka_root.name', $param),   
+                )
+            );
         }
+
+       
+
+       
+/*
+
+ if (isset($query['fulltext_search']) && trim($query['fulltext_search']) !== '') {
+            $searchTerm = trim($query['fulltext_search']);
+            $param = $qb->createNamedParameter($searchTerm);
+            
+            // Create the 4 standard "Whole Word" patterns
+            $start  = $qb->createNamedParameter($searchTerm . ' %'); // "Paris "
+            $middle = $qb->createNamedParameter('% ' . $searchTerm . ' %'); // " Paris "
+            $end    = $qb->createNamedParameter('% ' . $searchTerm); // " Paris"
+
+
+
+            $qb->andWhere(
+                $qb->expr()->orX(
+                    $qb->expr()->eq('omeka_root.name', $param),    // Exact match
+                    $qb->expr()->like('omeka_root.name', $start),  // Starts with word
+                    $qb->expr()->like('omeka_root.name', $middle), // Middle of sentence
+                    $qb->expr()->like('omeka_root.name', $end)     // Ends with word
+                )
+            );
+        }
+
+
+
+
+
+  if (isset($query['search'])) { 
+            $searchTerm = trim($query['fulltext_search']);
+            $param = $qb->createNamedParameter($searchTerm);
+            $qb->andWhere(
+                $qb->expr()->eq('omeka_root.name', $param)
+            );
+        }
+
+     
+
+            $qb->expr()->foreach->eq(trim(tolower('omeka_root.name', $expr)))
+            
+  
+
+  asset->name 
+        if (isset($query['fulltext_search'])) {
+
+           $searchTerm = $query['fulltext_search'];
+            $expr = $qb->createNamedParameter($searchTerm);
+
+            $qb->andWhere(
+                $qb->expr()->eq('omeka_root.name', $expr)
+            );
+     
+
+            'omeka_root.name', // 'omeka_root' is the alias for the Asset table
+
+
+    if (isset($query['search'])) {
+    $searchTerm = '%' . $query['search'] . '%';
+    $param = $qb->createNamedParameter($searchTerm);
+
+    // This is the "Full-text" equivalent for Assets
+    $qb->andWhere(
+        $qb->expr()->orX(
+            $qb->expr()->like('omeka_root.name', $param),
+            $qb->expr()->like('omeka_root.extension', $param),
+            $qb->expr()->like('omeka_root.mediaType', $param)
+        )
+    );
+}
+
+
+
+
+        if (!empty($query['name'])) {
+            $qb->andWhere($qb->expr()->eq(
+                "omeka_root.name",
+                $qb->createNamedParameter($query['name']))
+            );
+        }
+
+        parent::buildQuery($qb, $query); marche pas car le parent ne contient pas buildquery; 
+        voir quoi faire !
+        
+        if (isset($query['search'])) {
+            $this->buildPropertyQuery($qb, ['property' => [[
+                'property' => null,
+                'type' => 'in',
+                'text' => $query['search'],
+            ]]]);
+        }
+*/
+
         
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $qb->createAlias();

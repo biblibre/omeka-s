@@ -535,7 +535,11 @@ return [
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
+
+                'Omeka\Form\AssetForm' => Service\Form\AssetFormFactory::class,
+            
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
+
             'Omeka\Form\ModuleStateChangeForm' => Service\Form\ModuleStateChangeFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
             'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
