@@ -11,33 +11,17 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 use Omeka\Form\AssetForm;
 
-
-// look if i need the factory to replicate the setting (and look for another example for owners like hyperlink...)
-
 class AssetController extends AbstractActionController
 {
      public function searchAction()
     { 
-        // $form = new AssetForm;
-        // $form = new AssetForm();
-        // $form = $this->getForm(\Omeka\Form\AssetForm::class);  
-         $form = $this->getForm(AssetForm::class);  
+        $form = $this->getForm(AssetForm::class);  
 
         
         $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
         $form->setAttribute('method', 'get');
 
-//   $form->setAttribute(
-//         'action',
-//         $this->url()->fromRoute(null, ['action' => 'browse'], true)
-//     );
-
-//     $form->setAttribute('method', 'get');
-
         $form->setData($this->params()->fromQuery());
-
-        // $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
-        // $form->setAttribute('id', 'search-assets');
         
         $view = new ViewModel();
         $view->setVariable('form', $form);
@@ -60,7 +44,6 @@ class AssetController extends AbstractActionController
         $view->setVariable('query', $query);
         return $view;
     }
-    //ou bien laisser la func browzz la meme sans modif ..
 
 
     public function showDetailsAction()
