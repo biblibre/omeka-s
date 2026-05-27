@@ -9,26 +9,50 @@ use RecursiveIteratorIterator;
 use Laminas\View\Model\ViewModel;
 use Laminas\Mvc\Controller\AbstractActionController;
 
+use Omeka\Form\AssetForm;
+
+
+// look if i need the factory to replicate the setting (and look for another example for owners like hyperlink...)
+
 class AssetController extends AbstractActionController
 {
     public function searchAction()
-    {
-        $view = new ViewModel;
-        $view->setVariable('query', $this->params()->fromQuery());
+    { 
+        // $form = new AssetForm;
+        // $form = new AssetForm();
+        // $form = $this->getForm(\Omeka\Form\AssetForm::class);  
+        $form = $this->getForm(AssetForm::class);  
+
+
+  //$form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
+        $form->setAttribute('action', $this->url()->fromRoute(null, [], true));
+
+        $form->setAttribute('method', 'get');
+        // $form->setAttribute('id', 'search-assets');
+        
+
+        $form->setData($this->params()->fromQuery());
+        $view = new ViewModel();
+        $view->setVariable('form', $form);
+        
         return $view;
     }
 
     public function browseAction()
     {
         $this->browse()->setDefaults('assets');
-        $response = $this->api()->search('assets', $this->params()->fromQuery());
+        $query = $this->params()->fromQuery();
+        
+        $response = $this->api()->search('assets', $query);
         $this->paginator($response->getTotalResults());
 
-        $view = new ViewModel;
-        $items = $response->getContent();
-        $view->setVariable('assets', $items);
+        $view = new ViewModel();
+        $view->setVariable('assets', $response->getContent());
+        $view->setVariable('query', $query);
         return $view;
     }
+    //ou bien laisser la func browzz la meme sans modif ..
+
 
     public function showDetailsAction()
     {

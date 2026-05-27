@@ -12,7 +12,7 @@ class SettingController extends AbstractActionController
         $form = $this->getForm(SettingForm::class);
 
         $request = $this->getRequest();
-        if ($request->isPost()) {
+        if ($request->isPost()) {   
             $form->setData($this->params()->fromPost());
             if ($form->isValid()) {
                 $data = $form->getData();

@@ -1,14 +1,55 @@
 <?php
+
 $translate = $this->plugin('translate');
+
+
+
+$form = $this->form; // Récupéré du Controller
+
+$form->prepare(); 
+$form->setAttribute('action', $this->url(null, ['action' => 'browse'], true));
+$form->setAttribute('method', 'get');
+
 $this->htmlElement('body')->appendAttribute('class', 'Assets search');
+echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets'));
 ?>
-<?php echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets')); ?>
-<form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
-    <?php echo $this->partial(
-        'common/advanced-search-assets',
-        ['query' => $this->params()->fromQuery(), 'resourceType' => 'asset']
-    ); ?>
-    <div id="page-actions">
-        <input type="submit" name="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+
+
+<div id="page-actions">
+    <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+    <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+</div>
+
+
+<?php echo $this->form()->openTag($form); ?>
+    
+    <div class="field">
+        <div class="field-meta">
+            <?php echo $this->formLabel($form->get('fulltext_search')); ?>
+        </div>
+        <div class="inputs">
+            <?php echo $this->formElement($form->get('fulltext_search')); ?>
+        </div>
     </div>
-</form>
+
+       
+    <div class="field">
+        <div class="field-meta">
+            <?php echo $this->formLabel($form->get('o:owner[o:id]')); ?>
+        </div>
+        <div class="inputs">
+            <?php echo $this->formElement($form->get('o:owner[o:id]')); ?>
+             <div class="collapsible">
+            <div class="field-description"><?php echo $this->translate('Searches for assets that are owned by this user.'); ?></div>
+            </div>
+        </div>
+    </div>
+
+  
+
+<?php echo $this->form()->closeTag(); ?>
+
+
+
+
+

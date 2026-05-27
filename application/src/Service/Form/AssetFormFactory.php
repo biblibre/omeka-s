@@ -9,9 +9,7 @@ class AssetFormFactory implements FactoryInterface
 {
     public function __invoke(ContainerInterface $services, $requestedName, ?array $options = null)
     {
-        $form = new AssetForm(null, $options ?: []);
-
-        $form->setFulltextSearch($services->get('Omeka\FulltextSearch'));
+        $form = new AssetForm; // ou bien mettre des () ?
 
         return $form;
     }

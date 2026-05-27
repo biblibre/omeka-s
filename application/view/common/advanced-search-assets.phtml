@@ -2,7 +2,6 @@
 $this->headLink()->prependStylesheet($this->assetUrl('css/advanced-search.css', 'Omeka'));
 $this->headScript()->appendFile($this->assetUrl('js/advanced-search.js', 'Omeka'));
 
-
 $query = isset($query) ? $query : null;
 $partials = [
     'common/advanced-search/assets',
@@ -27,3 +26,6 @@ $partials = $filterResults['partials'];
     }
     ?>
 </div>
+
+
+<!-- shouldn't be using it ? -->
