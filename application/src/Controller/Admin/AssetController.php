@@ -13,29 +13,26 @@ use Omeka\Form\AssetForm;
 
 class AssetController extends AbstractActionController
 {
-     public function searchAction()
-    { 
-        $form = $this->getForm(AssetForm::class);  
+    public function searchAction()
+    {
+        $form = $this->getForm(AssetForm::class);
 
-        
         $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
         $form->setAttribute('method', 'get');
 
         $form->setData($this->params()->fromQuery());
-        
+
         $view = new ViewModel();
         $view->setVariable('form', $form);
-        
+
         return $view;
     }
-
-
 
     public function browseAction()
     {
         $this->browse()->setDefaults('assets');
         $query = $this->params()->fromQuery();
-        
+
         $response = $this->api()->search('assets', $query);
         $this->paginator($response->getTotalResults());
 
@@ -44,7 +41,6 @@ class AssetController extends AbstractActionController
         $view->setVariable('query', $query);
         return $view;
     }
-
 
     public function showDetailsAction()
     {

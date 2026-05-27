@@ -41,16 +41,15 @@ class AssetAdapter extends AbstractEntityAdapter
         return \Omeka\Entity\Asset::class;
     }
 
-    
     public function buildQuery(QueryBuilder $qb, array $query)
-    { 
+    {
         if (isset($query['fulltext_search']) && trim($query['fulltext_search']) !== '') {
             $searchTerm = trim($query['fulltext_search']);
-            
+
             $param = $qb->createNamedParameter('%' . $searchTerm . '%');
 
             $qb->andWhere(
-                    $qb->expr()->like('omeka_root.name', $param)   
+                $qb->expr()->like('omeka_root.name', $param)
             );
         }
 

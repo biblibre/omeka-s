@@ -12,10 +12,9 @@ class AssetForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
-
     public function init()
     {
-    
+
         $this->add([
             'name' => 'fulltext_search',
             'type' => 'Text',
@@ -27,17 +26,15 @@ class AssetForm extends Form implements EventManagerAwareInterface
             ],
         ]);
 
-
-
         $this->add([
             'name' => 'owner_id',
-            'type' => ResourceSelect::class, 
+            'type' => ResourceSelect::class,
             'options' => [
                 'label' => 'Search by owner', // @translate
                 'empty_option' => 'Select user...',// @translate
                 'resource_value_options' => [
-                    'resource' => 'users', 
-                    'option_text_callback' => 
+                    'resource' => 'users',
+                    'option_text_callback' =>
                         function ($user) {
                             return $user->name() . ' (' . $user->email() . ')';
                         },
