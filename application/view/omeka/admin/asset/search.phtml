@@ -1,25 +1,15 @@
 <?php
-
 $translate = $this->plugin('translate');
 
-
-
-$form = $this->form; // Récupéré du Controller
-
-$form->prepare(); 
-$form->setAttribute('action', $this->url(null, ['action' => 'browse'], true));
-$form->setAttribute('method', 'get');
-
-$this->htmlElement('body')->appendAttribute('class', 'Assets search');
+$this->htmlElement('body')->appendAttribute('class', 'assets search');
 echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets'));
+
+$form = $this->form; 
+
+// On donne l'ID attendu par le CSS d'Omeka pour que le bouton se mette au bon endroit
+$form->setAttribute('id', 'advanced-search'); 
+$form->prepare(); 
 ?>
-
-
-<div id="page-actions">
-    <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
-    <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
-</div>
-
 
 <?php echo $this->form()->openTag($form); ?>
     
@@ -32,24 +22,26 @@ echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets'));
         </div>
     </div>
 
-       
     <div class="field">
         <div class="field-meta">
-            <?php echo $this->formLabel($form->get('o:owner[o:id]')); ?>
+            <?php echo $this->formLabel($form->get('owner_id')); ?>
+
+            <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
+            <div class="collapsible">
+                <div class="field-description">
+                    <?php echo $this->translate('Searches for assets that are owned by this user.'); ?>
+                </div>
+            </div>
+
         </div>
         <div class="inputs">
-            <?php echo $this->formElement($form->get('o:owner[o:id]')); ?>
-             <div class="collapsible">
-            <div class="field-description"><?php echo $this->translate('Searches for assets that are owned by this user.'); ?></div>
-            </div>
+            <?php echo $this->formElement($form->get('owner_id')); ?>
         </div>
     </div>
 
-  
-
+    <div id="page-actions">
+        <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+        <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+    </div>
+    
 <?php echo $this->form()->closeTag(); ?>
-
-
-
-
-

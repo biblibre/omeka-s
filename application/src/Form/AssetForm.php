@@ -38,30 +38,19 @@ class AssetForm extends Form implements EventManagerAwareInterface
         ]);
 
 
-        $this->add([
-            'name' => 'form_info',
-            'type' => 'Text',
-            'options' => [
-                'label' => 'Le from marche bien ?', // @translate
-            ],
-            'attributes' => [
-                'id' => 'form_info',
-            ],
-        ]);
-
 
         $this->add([
-            'name' => 'o:owner[o:id]',
+            'name' => 'owner_id',
             'type' => ResourceSelect::class, //'select' but dynamic with resource select
             'options' => [
                 'label' => 'Search by owner', // @translate
-                'info' => 'Searches for assets that are owned by this user. ^ ^ ', // @translate
-                'empty_option' => 'Select userRR...',
+                // 'info' => 'Searches for assets that are owned by this user. ^ ^ ', // @translate
+                'empty_option' => 'Select user...',
                 'resource_value_options' => [
                     'resource' => 'users', 
                     // 'query' => [],
                     'option_text_callback' => function ($user) {
-                        return $user->name() . ' (id: ' . $user->id() . ')';
+                        return $user->name() . ' (' . $user->email() . ')';
                         // add the link 
                         // $ownerText = $this->hyperlink(
                         // $user->name(),
@@ -76,13 +65,12 @@ class AssetForm extends Form implements EventManagerAwareInterface
                 ],
             ],
             'attributes' => [
-                'id' => 'o:owner[o:id]',
-                'class' => 'chosen-select', // Pour avoir le style graphique Omeka ??
+                'id' => 'owner_id',
             ],
         ]);
 
-        // $addEvent = new Event('form.add_elements', $this);
-        // $this->getEventManager()->triggerEvent($addEvent);
+        $addEvent = new Event('form.add_elements', $this);
+        $this->getEventManager()->triggerEvent($addEvent);
 
         // $inputFilter = $this->getInputFilter();
         //  $inputFilter->add([
@@ -94,9 +82,12 @@ class AssetForm extends Form implements EventManagerAwareInterface
         // $this->getEventManager()->triggerEvent($filterEvent);
 
 
+        $inputFilter = $this->getInputFilter();
+        $inputFilter->add(['name' => 'fulltext_search', 'required' => false]);
+        $inputFilter->add(['name' => 'owner_id', 'required' => false]);
+
          // Optionnel : Déclencher l'événement pour permettre à d'autres modules d'ajouter des champs
-        // $this->getEventManager()->triggerEvent(new Event('form.add_elements', $this));
+        $this->getEventManager()->triggerEvent(new Event('form.add_elements', $this));
    
     }
-
 }
