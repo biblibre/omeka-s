@@ -299,9 +299,7 @@ return [
             'Omeka\Media\Ingester\Manager' => Service\Media\Ingester\ManagerFactory::class,
             'Omeka\Media\Renderer\Manager' => Service\Media\Renderer\ManagerFactory::class,
             'Omeka\Media\FileRenderer\Manager' => Service\Media\FileRenderer\ManagerFactory::class,
-            
-                'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
-            
+            'Omeka\FulltextSearch' => Service\FulltextSearchFactory::class,
             'Omeka\Environment' => Service\EnvironmentFactory::class,
             'Omeka\ColumnTypeManager' => Service\ColumnType\ManagerFactory::class,
             'Omeka\Browse' => Service\BrowseFactory::class,
@@ -340,9 +338,7 @@ return [
             'Omeka\Controller\Site\ItemSet' => Controller\Site\ItemSetController::class,
             'Omeka\Controller\Site\Media' => Controller\Site\MediaController::class,
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
-            
             'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
-            
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
             'Omeka\Controller\Admin\Columns' => Controller\Admin\ColumnsController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
@@ -539,11 +535,8 @@ return [
             'Omeka\Form\VocabularyForm' => Service\Form\VocabularyFormFactory::class,
             'Omeka\Form\ResourceBatchUpdateForm' => Service\Form\ResourceBatchUpdateFormFactory::class,
             'Omeka\Form\UserForm' => Service\Form\UserFormFactory::class,
-
-                'Omeka\Form\AssetForm' => Service\Form\AssetFormFactory::class,
-            
+            'Omeka\Form\AssetForm' => Service\Form\AssetFormFactory::class,            
             'Omeka\Form\SettingForm' => Service\Form\SettingFormFactory::class,
-
             'Omeka\Form\ModuleStateChangeForm' => Service\Form\ModuleStateChangeFormFactory::class,
             'Omeka\Form\SiteSettingsForm' => Service\Form\SiteSettingsFormFactory::class,
             'Omeka\Form\PageLayoutDataForm' => Service\Form\PageLayoutDataFormFactory::class,
