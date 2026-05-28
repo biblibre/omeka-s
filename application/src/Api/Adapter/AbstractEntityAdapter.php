@@ -766,21 +766,6 @@ abstract class AbstractEntityAdapter extends AbstractAdapter implements EntityAd
         return ":$placeholder";
     }
 
-    public function setParameter($key, $value, $type = null)
-    {
-        $existingParameter = $this->getParameter($key);
-
-        if ($existingParameter !== null) {
-            $existingParameter->setValue($value, $type);
-
-            return $this;
-        }
-
-        $this->parameters->add(new Parameter($key, $value, $type));
-
-        return $this;
-    }
-
     /**
      * Create a unique alias for the query builder.
      *
