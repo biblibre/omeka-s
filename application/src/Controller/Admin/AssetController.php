@@ -72,7 +72,7 @@ class AssetController extends AbstractActionController
         $response = $this->api()->search('assets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
 
-        $view = new ViewModel();
+        $view = new ViewModel;
         $items = $response->getContent();
         $view->setVariable('assets', $items);
         return $view;
