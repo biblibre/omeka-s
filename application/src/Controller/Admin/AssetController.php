@@ -13,20 +13,58 @@ use Omeka\Form\AssetForm;
 
 class AssetController extends AbstractActionController
 {
+    //avec get
     public function searchAction()
     {
         $form = $this->getForm(AssetForm::class);
 
-        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
         $form->setAttribute('method', 'get');
 
+        $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
+
+        //   --> $form->setButtonLabel('Search'); // @translate
+        // $form->setAttribute('id', 'search-assets');
+
         $form->setData($this->params()->fromQuery());
+        $view = new ViewModel();
+        $view->setVariable('form', $form);
+
+        return $view;
+    }
+
+    // avec post : MARCHE pas, je ne sais pas pourquoi ?  (voir itemsetController ligne 20 ( c est de la que j ai pris la fct))
+
+    /*
+    public function searchAction()
+    {
+        //  --> $form->setButtonLabel('Search'); // @translate
+
+        $form = $this->getForm(AssetForm::class);
+
+        // methode post : MARCHE pas, je ne sais pas pourquoi ?  (voir itemsetController ligne 20 ( c est de la que j ai pris la fct))
+        if ($this->getRequest()->isPost()) {
+            $data = $this->params()->fromPost();
+            // var_dump($data);
+            $form->setData($data);
+            // var_dump($data); meme resultat que le 1ere;
+
+            if ($form->isValid()) {
+
+                $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
+                $form->setAttribute('id', 'search-assets');
+                $form->setData($this->params()->fromQuery());
+
+            } else {
+                $this->messenger()->addFormErrors($form);
+            }
+        }
 
         $view = new ViewModel();
         $view->setVariable('form', $form);
 
         return $view;
     }
+        */
 
     public function browseAction()
     {

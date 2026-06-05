@@ -1,46 +1,24 @@
 <?php
 $translate = $this->plugin('translate');
-
 $this->htmlElement('body')->appendAttribute('class', 'assets search');
-echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets'));
-
-$form = $this->form; 
-
-$form->setAttribute('id', 'advanced-search'); 
 $form->prepare(); 
 ?>
 
+<?php echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets')); ?>
+
+<?php $this->trigger('view.browse.before'); ?>
+
 <?php echo $this->form()->openTag($form); ?>
+<div id="page-actions">
+    <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
     
-    <div class="field">
-        <div class="field-meta">
-            <?php echo $this->formLabel($form->get('fulltext_search')); ?>
-        </div>
-        <div class="inputs">
-            <?php echo $this->formElement($form->get('fulltext_search')); ?>
-        </div>
-    </div>
-
-    <div class="field">
-        <div class="field-meta">
-            <?php echo $this->formLabel($form->get('owner_id')); ?>
-
-            <?php echo $this->hyperlink('', '#', ['class' => 'expand', 'title' => $this->translate('Expand')]); ?>
-            <div class="collapsible">
-                <div class="field-description">
-                    <?php echo $this->translate('Searches for assets that are owned by this user.'); ?>
-                </div>
-            </div>
-
-        </div>
-        <div class="inputs">
-            <?php echo $this->formElement($form->get('owner_id')); ?>
-        </div>
-    </div>
-
-    <div id="page-actions">
-        <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
-        <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
-    </div>
-    
+    <!-- use the setButtonLabel instead ?  in form ? where then function -->
+    <button type="submit">
+        <?php echo $this->escapeHtml($translate('Search')); ?>
+    </button>
+</div>
+<?php echo $this->formCollectionElementGroups($form); ?>
 <?php echo $this->form()->closeTag(); ?>
+
+<?php $this->trigger('view.browse.after'); ?>
+

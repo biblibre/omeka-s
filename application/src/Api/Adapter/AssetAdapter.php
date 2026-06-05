@@ -43,15 +43,24 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
-        if (isset($query['fulltext_search']) && trim($query['fulltext_search']) !== '') {
-            $searchTerm = trim($query['fulltext_search']);
+        if (isset($query['fulltext_search'])) {
+            // $searchTerm = trim($query['fulltext_search']); // utile ou pas vrmt
 
-            $param = $qb->createNamedParameter('%' . $searchTerm . '%');
+            $searchTerm = $query['fulltext_search'];
+            $param = $qb->createNamedParameter('%' . $searchTerm . '%');   //ok pour createNamedParameter
 
             $qb->andWhere(
                 $qb->expr()->like('omeka_root.name', $param)
             );
         }
+        /*
+        utiliser ou sinon l ajouter a un doc (pour des recherche precise?
+            $searchTerm = str_replace(
+                ['\\', '%', '_'],
+                ['\\\\', '\\%', '\\_'],
+                $searchTerm
+            );
+        */
 
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $qb->createAlias();
