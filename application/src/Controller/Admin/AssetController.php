@@ -18,6 +18,8 @@ class AssetController extends AbstractActionController
     {
         $form = $this->getForm(AssetForm::class);
 
+        
+
         $form->setAttribute('method', 'get');
 
         $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));

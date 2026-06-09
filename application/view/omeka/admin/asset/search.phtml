@@ -1,6 +1,7 @@
 <?php
 $translate = $this->plugin('translate');
-$this->htmlElement('body')->appendAttribute('class', 'assets search');
+$escape = $this->plugin('escapeHtml');
+// $this->htmlElement('body')->appendAttribute('class', 'assets search');
 $form->prepare(); 
 ?>
 
@@ -13,8 +14,8 @@ $form->prepare();
     <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
     
     <!-- use the setButtonLabel instead ?  in form ? where then function -->
-    <button type="submit">
-        <?php echo $this->escapeHtml($translate('Search')); ?>
+    <button>
+        <?php echo $escape($translate('Search')); ?>
     </button>
 </div>
 <?php echo $this->formCollectionElementGroups($form); ?>
