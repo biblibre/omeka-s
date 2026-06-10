@@ -10,15 +10,24 @@ $form->prepare();
 <?php $this->trigger('view.browse.before'); ?>
 
 <?php echo $this->form()->openTag($form); ?>
+
+<!-- formElement ou row au lieu de collection pour choisir et 'trier ' quoi avoir -->
+<?php echo $this->formRow($form->get('fulltext_search')); ?>
+<?php echo $this->formRow($form->get('owner_id')); ?>   
+
 <div id="page-actions">
     <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+<<<<<<< HEAD
     
     <!-- use the setButtonLabel instead ?  in form ? where then function -->
     <button>
         <?php echo $escape($translate('Search')); ?>
     </button>
+=======
+    <?php echo $this->formSubmit($form->get('submit')); ?>
+>>>>>>> 651887c24 (solution for CSRF in search bar and modif to respect the cs of form)
 </div>
-<?php echo $this->formCollectionElementGroups($form); ?>
+
 <?php echo $this->form()->closeTag(); ?>
 
 <?php $this->trigger('view.browse.after'); ?>

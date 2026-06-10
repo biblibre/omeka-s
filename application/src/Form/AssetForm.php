@@ -10,6 +10,9 @@ use Laminas\EventManager\Event;
 class AssetForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
+    
+    
+    // au lieu de 'text'; use Laminas\Form\Element\Text; 'type' => Text::class,
 
     public function init()
     {
@@ -37,6 +40,14 @@ class AssetForm extends Form implements EventManagerAwareInterface
             ],
         ]);
 
+        $this->add([
+            'name' => 'submit',
+            'type' => 'submit',
+            'attributes' => [
+                'value' => 'Search',
+            ],
+        ]);
+
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
 
@@ -46,6 +57,6 @@ class AssetForm extends Form implements EventManagerAwareInterface
         $inputFilter->add(['name' => 'fulltext_search', 'required' => false]);
         $inputFilter->add(['name' => 'owner_id', 'required' => false]);
 
-        $this->getEventManager()->triggerEvent(new Event('form.add_elements', $this));
+        // $this->getEventManager()->triggerEvent(new Event('form.add_elements', $this));
     }
 }
