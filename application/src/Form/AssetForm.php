@@ -10,8 +10,7 @@ use Laminas\EventManager\Event;
 class AssetForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
-    
-    
+
     // au lieu de 'text'; use Laminas\Form\Element\Text; 'type' => Text::class,
 
     public function init()
@@ -29,7 +28,7 @@ class AssetForm extends Form implements EventManagerAwareInterface
 
         $this->add([
             'name' => 'owner_id',
-            'type' => UserSelect::class, 
+            'type' => UserSelect::class,
             'options' => [
                 'label' => 'Search by owner', // @translate
                 'info' => 'Searches for assets that are owned by this user.', // @translate
