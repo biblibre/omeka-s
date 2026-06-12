@@ -1,7 +1,6 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
-$form->remove('csrf');
 $form->prepare(); 
 ?>
 
@@ -14,7 +13,8 @@ $form->prepare();
     <?= $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
     <button type="submit"><?= $escape($translate('Search')); ?></button>
 </div>
-<?= $this->formCollection($form, false) ?>
+<?= $this->formRow($form->get('fulltext_search')) ?>
+<?= $this->formRow($form->get('owner_id')) ?>
 
 <?= $this->form()->closeTag(); ?>
 <?php $this->trigger('view.browse.after'); ?>
