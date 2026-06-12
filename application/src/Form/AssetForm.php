@@ -40,19 +40,10 @@ class AssetForm extends Form implements EventManagerAwareInterface
             ],
         ]);
 
-        $this->add([
-            'name' => 'submit',
-            'type' => 'submit',
-            'attributes' => [
-                'value' => 'Search',
-            ],
-        ]);
-
+        // est ce vrmt utile ?
         $addEvent = new Event('form.add_elements', $this);
         $this->getEventManager()->triggerEvent($addEvent);
-
-        // meme si je commente cette parite et je de-commente le 'required' => false, je recoit le ùessage de CSRF !;
-        // doit avoir input filter pour CSRF ?
+        // est ce vrmt utile ?
         $inputFilter = $this->getInputFilter();
         $inputFilter->add(['name' => 'fulltext_search', 'required' => false]);
         $inputFilter->add(['name' => 'owner_id', 'required' => false]);
