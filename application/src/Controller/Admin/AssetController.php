@@ -17,15 +17,17 @@ class AssetController extends AbstractActionController
     public function searchAction()
     {
         $form = $this->getForm(AssetForm::class);
+        if ($form->has('csrf')) {
+            $form->remove('csrf');
+        }
 
         $form->setAttribute('method', 'get');
-
         $form->setAttribute('action', $this->url()->fromRoute(null, ['action' => 'browse'], true));
 
-        //   --> $form->setButtonLabel('Search'); // @translate
         // $form->setAttribute('id', 'search-assets');
-
-        $form->setData($this->params()->fromQuery());
+        $data = $this->params()->fromQuery();
+        $form->setData($data);
+        
         $view = new ViewModel();
         $view->setVariable('form', $form);
 

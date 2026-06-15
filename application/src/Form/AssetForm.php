@@ -11,7 +11,7 @@ class AssetForm extends Form implements EventManagerAwareInterface
 {
     use EventManagerAwareTrait;
 
-    // au lieu de 'text'; use Laminas\Form\Element\Text; 'type' => Text::class,
+    // au lieu de 'text'; use Laminas\Form\Element\Text; 'type' => Tex  ::class,
 
     public function init()
     {

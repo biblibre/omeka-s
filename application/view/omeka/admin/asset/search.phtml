@@ -13,8 +13,7 @@ $form->prepare();
     <?= $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
     <button type="submit"><?= $escape($translate('Search')); ?></button>
 </div>
-<?= $this->formRow($form->get('fulltext_search')) ?>
-<?= $this->formRow($form->get('owner_id')) ?>
+<?= $this->formCollection($form) // avoir false en argument ? ($form, false) - le default true , collections are automatically wrapped around a fieldset (j ai pas bien compris le 'wrapped'?>
 
 <?= $this->form()->closeTag(); ?>
 <?php $this->trigger('view.browse.after'); ?>
