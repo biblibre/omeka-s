@@ -27,7 +27,7 @@ class AssetController extends AbstractActionController
         // $form->setAttribute('id', 'search-assets');
         $data = $this->params()->fromQuery();
         $form->setData($data);
-        
+
         $view = new ViewModel();
         $view->setVariable('form', $form);
 
