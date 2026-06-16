@@ -1,0 +1,20 @@
+<?php
+$translate = $this->plugin('translate');
+$this->htmlElement('body')->appendAttribute('class', 'assets search');
+?>
+<?php echo $this->pageTitle($translate('Advanced search'), 1, $translate('Assets')); ?>
+<form id="advanced-search" method="get" action="<?php echo $this->escapeHtml($this->url(null, ['action' => 'browse'], true)); ?>">
+<div class="field" id="name_field">
+    <div class="field-meta">
+        <label for="name"><?php echo $translate('Search by name'); // @translate ?></label>
+    </div>
+    <div class="inputs">
+        <input type="text" name="name" id="name" value="<?php echo $this->escapeHtml($query['name'] ?? ''); ?>">
+    </div>
+</div>
+<?php echo $this->partial('common/advanced-search/owner', ['query' => $query]); ?>
+<div id="page-actions">
+    <?php echo $this->hyperlink($translate('Reset'), $this->url(null, [], true), ['class' => 'button']); ?>
+    <input type="submit" value="<?php echo $this->escapeHtml($translate('Search')); ?>">
+</div>
+</form>

@@ -43,6 +43,11 @@ class AssetAdapter extends AbstractEntityAdapter
 
     public function buildQuery(QueryBuilder $qb, array $query)
     {
+        if (isset($query['name']) && '' !== ($name = trim($query['name']))) {
+            $searchTerm = str_replace(['\\', '%', '_'], ['\\\\', '\\%', '\\_'], $name);
+            $qb->andWhere($qb->expr()->like('omeka_root.name', $qb->createNamedParameter('%' . $searchTerm . '%')));
+        }
+
         if (isset($query['owner_id']) && is_numeric($query['owner_id'])) {
             $userAlias = $qb->createAlias();
             if (0 == $query['owner_id']) {
