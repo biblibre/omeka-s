@@ -20,25 +20,25 @@ class ListResources extends AbstractHelper
         $view = $this->getView();
         $hyperlink = $view->plugin('hyperlink');
 
-        echo '(' . $mig->getResourceName() . ')';
+        $output = '(' . $mig->getResourceName() . ')';
         switch ($mig->getResourceName()) {
             case 'items':
-                echo $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
+                $output .= $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'item', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
                 break;
 
             case 'item_sets':
-                echo $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
+                $output .= $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'item-set', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
                 break;
 
             case 'media':
-                echo $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'media', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
+                $output .= $hyperlink($mig->getTitle() . ' :' . $mig->getId(), $this->getView()->url('admin/default', ['controller' => 'media', 'action' => 'browse'], ['query' => ['id' => $mig->getId()]]));
                 break;
 
             default:
                 throw new \InvalidArgumentException(sprintf('Invalid resource type "%s"', $mig->getResourceName()));
         }
 
-        return null;
+        return $output;
 
     }
 }

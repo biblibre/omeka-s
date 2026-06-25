@@ -20,7 +20,7 @@ $escape = $this->plugin('escapeHtml');
             
         <?php foreach ($resource_array as $res_array): ?>
             <div class="value">
-                <?php $this->listResources($res_array);?>                    
+                <?php echo $this->listResources($res_array);?>                    
             </div>
         <?php endforeach; ?>
     </div>
