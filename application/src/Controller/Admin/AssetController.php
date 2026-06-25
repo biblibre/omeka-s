@@ -26,10 +26,27 @@ class AssetController extends AbstractActionController
     public function showDetailsAction()
     {
         $response = $this->api()->read('assets', $this->params('id'));
+        $asset = $response->getContent();
 
         $view = new ViewModel;
         $view->setTerminal(true);
-        $view->setVariable('resource', $response->getContent());
+
+        $view->setVariable('resource', $asset);
+
+        $assetId = $asset->Id();
+
+        $entityManager = $this->getEvent()
+                        ->getApplication()
+                        ->getServiceManager()
+                        ->get('Omeka\EntityManager');
+
+        $dql = 'SELECT r FROM Omeka\Entity\Resource r WHERE r.thumbnail = :id';
+
+        $query = $entityManager->createQuery($dql)
+                ->setParameter('id', $assetId);
+        $resource_array = $query->getResult();
+        $view->setVariable('resource_array', $resource_array);
+
         return $view;
     }
 

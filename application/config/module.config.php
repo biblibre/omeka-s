@@ -457,6 +457,7 @@ return [
             'iiifViewer' => View\Helper\IiifViewer::class,
             'currentSite' => View\Helper\CurrentSite::class,
             'formSelectSort' => Form\View\Helper\FormSelectSort::class,
+            'listResources' => View\Helper\ListResources::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

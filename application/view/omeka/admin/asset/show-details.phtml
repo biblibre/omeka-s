@@ -9,9 +9,23 @@ $escape = $this->plugin('escapeHtml');
 <?php echo $this->thumbnail($resource, 'square', ['class' => 'asset-inline']); ?>
 
 <div class="meta-group">
-        <h4><?php echo $translate('ID'); ?></h4>
-        <div class="value"><?php echo $escape($resource->id()); ?></div>
+    <h4><?php echo $translate('ID'); ?></h4>
+    <div class="value"><?php echo $escape($resource->id()); ?></div>
 </div>
+
+
+<?php if ($resource_array): ?>
+    <div class="meta-group">
+        <h4><?php echo $translate('Used in / Part of'); ?></h4>
+            
+        <?php foreach ($resource_array as $res_array): ?>
+            <div class="value">
+                <?php $this->listResources($res_array);?>                    
+            </div>
+        <?php endforeach; ?>
+    </div>
+<?php endif; ?>
+
 
 <div class="meta-group">
     <h4><?php echo $translate('Media type'); ?></h4>
