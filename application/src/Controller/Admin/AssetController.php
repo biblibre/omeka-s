@@ -4,6 +4,9 @@ namespace Omeka\Controller\Admin;
 use Omeka\Api\Exception\ValidationException;
 use Omeka\Form\AssetEditForm;
 use Omeka\Form\ConfirmForm;
+
+use Doctrine\ORM\EntityManager;
+
 use RecursiveArrayIterator;
 use RecursiveIteratorIterator;
 use Laminas\View\Model\ViewModel;
@@ -11,8 +14,22 @@ use Laminas\Mvc\Controller\AbstractActionController;
 
 class AssetController extends AbstractActionController
 {
+    /**
+     * @var EntityManager
+     */
+    protected $entityManager;
+
+    /**
+     * @param EntityManager $entityManager
+     */
+    public function __construct(EntityManager $entityManager)
+    {
+        $this->entityManager = $entityManager;
+    }
+
     public function browseAction()
     {
+
         $this->browse()->setDefaults('assets');
         $response = $this->api()->search('assets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
@@ -33,19 +50,8 @@ class AssetController extends AbstractActionController
 
         $view->setVariable('resource', $asset);
 
-        $assetId = $asset->Id();
-
-        $entityManager = $this->getEvent()
-                        ->getApplication()
-                        ->getServiceManager()
-                        ->get('Omeka\EntityManager');
-
-        $dql = 'SELECT r FROM Omeka\Entity\Resource r WHERE r.thumbnail = :id';
-
-        $query = $entityManager->createQuery($dql)
-                ->setParameter('id', $assetId);
-        $resource_array = $query->getResult();
-        $view->setVariable('resource_array', $resource_array);
+        $resourceArray = $this->getRelatedResources();
+        $view->setVariable('resource_array', $resourceArray);
 
         return $view;
     }
@@ -139,6 +145,10 @@ class AssetController extends AbstractActionController
         $view->setTemplate('common/delete-confirm-details');
         $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'asset'); // @translate
+
+        $resourceArray = $this->getRelatedResources();
+        $view->setVariable('resource_array', $resourceArray);
+
         $view->setVariable('partialPath', 'omeka/admin/asset/show-details');
         return $view;
     }
@@ -162,5 +172,26 @@ class AssetController extends AbstractActionController
             ['action' => 'browse'],
             true
         );
+    }
+
+    public function getRelatedResources()
+    {
+        $response = $this->api()->read('assets', $this->params('id'));
+        $asset = $response->getContent();
+
+        $view = new ViewModel;
+        $view->setVariable('resource', $asset);
+
+        $assetId = $asset->id();
+        $conn = $this->entityManager->getConnection();
+
+        $resourceArray = $conn->executeQuery(
+            'SELECT id, title, resource_type
+            FROM resource
+            WHERE thumbnail_id = :id',
+            ['id' => $assetId]
+        )->fetchAllAssociative();
+
+        return $resourceArray;
     }
 }

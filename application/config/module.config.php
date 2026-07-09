@@ -338,7 +338,6 @@ return [
             'Omeka\Controller\Site\ItemSet' => Controller\Site\ItemSetController::class,
             'Omeka\Controller\Site\Media' => Controller\Site\MediaController::class,
             'Omeka\Controller\Site\CrossSiteSearch' => Controller\Site\CrossSiteSearchController::class,
-            'Omeka\Controller\Admin\Asset' => Controller\Admin\AssetController::class,
             'Omeka\Controller\Admin\Query' => Controller\Admin\QueryController::class,
             'Omeka\Controller\Admin\Columns' => Controller\Admin\ColumnsController::class,
             'Omeka\Controller\Admin\ItemSet' => Controller\Admin\ItemSetController::class,
@@ -350,6 +349,7 @@ return [
             'Omeka\Controller\SiteAdmin\Page' => Controller\SiteAdmin\PageController::class,
         ],
         'factories' => [
+            'Omeka\Controller\Admin\Asset' => Service\Controller\Admin\AssetControllerFactory::class,
             'Omeka\Controller\Login' => Service\Controller\LoginControllerFactory::class,
             'Omeka\Controller\Api' => Service\Controller\ApiControllerFactory::class,
             'Omeka\Controller\ApiLocal' => Service\Controller\ApiLocalControllerFactory::class,
@@ -457,7 +457,7 @@ return [
             'iiifViewer' => View\Helper\IiifViewer::class,
             'currentSite' => View\Helper\CurrentSite::class,
             'formSelectSort' => Form\View\Helper\FormSelectSort::class,
-            'listResources' => View\Helper\ListResources::class,
+            'RelatedRessourcesToAsset' => View\Helper\RelatedRessourcesToAsset::class,
         ],
         'factories' => [
             'api' => Service\ViewHelper\ApiFactory::class,

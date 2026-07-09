@@ -1,0 +1,32 @@
+<?php
+$translate = $this->plugin('translate');
+$escapeAttr = $this->plugin('escapeHtmlAttr');
+$hyperlink = $this->plugin('hyperlink');
+
+$results = []; 
+$mappedResourceName = [
+        'Omeka\Entity\Item' => 'item',
+        'Omeka\Entity\ItemSet' => 'item-set',
+        'Omeka\Entity\Media' => 'media',
+];
+
+foreach ($resources as $row){
+
+$type = $mappedResourceName[$row['resource_type']];
+
+    $output =  $hyperlink($row['title'] . '(' . $row['id'] . ')', $view->url('admin/default', ['controller' => $type, 'action' => 'browse'], ['query' => ['id' => $row['id']]]));
+    $results[$type][] = $output;
+}
+foreach ($results as $ttype => $values){
+    
+    echo '<div class="value">' . $ttype . '</div>'; 
+    
+    echo '<div class="value">';
+
+    foreach ($values as $value) {
+        echo $value . '<br>';
+    }
+    echo '</div>';
+
+    }
+?>

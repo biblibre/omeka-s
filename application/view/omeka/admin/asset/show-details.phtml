@@ -3,26 +3,17 @@ $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
 ?>
 <h3>
-    <?php echo $escape($resource->name()); ?>
+    <?php echo $escape($resource->name());?>
 </h3>
 
 <?php echo $this->thumbnail($resource, 'square', ['class' => 'asset-inline']); ?>
 
-<div class="meta-group">
-    <h4><?php echo $translate('ID'); ?></h4>
-    <div class="value"><?php echo $escape($resource->id()); ?></div>
-</div>
-
-
-<?php if ($resource_array): ?>
+<?php $results = []; ?>
+<?php if ($resource_array): ?> 
     <div class="meta-group">
-        <h4><?php echo $translate('Used in / Part of'); ?></h4>
-            
-        <?php foreach ($resource_array as $res_array): ?>
-            <div class="value">
-                <?php echo $this->listResources($res_array);?>                    
-            </div>
-        <?php endforeach; ?>
+        <h4><?php echo $translate('Related to:'); ?></h4>
+        <?php $result = [];?> 
+        <?php  echo $this->RelatedRessourcesToAsset($resource_array); ?>
     </div>
 <?php endif; ?>
 
