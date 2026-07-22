@@ -8,15 +8,12 @@ $escape = $this->plugin('escapeHtml');
 
 <?php echo $this->thumbnail($resource, 'square', ['class' => 'asset-inline']); ?>
 
-<?php $results = []; ?>
 <?php if ($resource_array): ?> 
     <div class="meta-group">
         <h4><?php echo $translate('Related to:'); ?></h4>
-        <?php $result = [];?> 
-        <?php  echo $this->RelatedRessourcesToAsset($resource_array); ?>
+        <?php  echo $this->relatedRessourcesToAsset($resource_array); ?>
     </div>
 <?php endif; ?>
-
 
 <div class="meta-group">
     <h4><?php echo $translate('Media type'); ?></h4>

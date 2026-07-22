@@ -16,9 +16,9 @@ class RelatedRessourcesToAsset extends AbstractHelper
     {
         return $this->getview()->partial(
             'common/related-resources-to-asset',
-            ['resources' => $resource,
-                'view' => $this->getView()]
+            [
+                'resources' => $resource,
+            ]
         );
-
     }
 }

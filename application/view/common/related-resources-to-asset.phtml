@@ -1,32 +1,38 @@
 <?php
-$translate = $this->plugin('translate');
-$escapeAttr = $this->plugin('escapeHtmlAttr');
-$hyperlink = $this->plugin('hyperlink');
+    $translate = $this->plugin('translate');
+    $escapeAttr = $this->plugin('escapeHtmlAttr');
+    $hyperlink = $this->plugin('hyperlink');
 
-$results = []; 
-$mappedResourceName = [
-        'Omeka\Entity\Item' => 'item',
-        'Omeka\Entity\ItemSet' => 'item-set',
-        'Omeka\Entity\Media' => 'media',
-];
+    $mappedResourceName = [
+            'items' => 'item',
+            'item_sets' => 'item-set',
+            'media' => 'media',
+    ];
+    $mappedTitle = [
+        'item' => 'Items',
+        'item-set' => 'Item sets',
+        'media' => 'Medias',
+    ];
 
-foreach ($resources as $row){
+    $results = []; 
 
-$type = $mappedResourceName[$row['resource_type']];
+    foreach ($resources as $resource) {
+        $type = $mappedResourceName[$resource->getResourceName()];
 
-    $output =  $hyperlink($row['title'] . '(' . $row['id'] . ')', $view->url('admin/default', ['controller' => $type, 'action' => 'browse'], ['query' => ['id' => $row['id']]]));
-    $results[$type][] = $output;
-}
-foreach ($results as $ttype => $values){
-    
-    echo '<div class="value">' . $ttype . '</div>'; 
-    
-    echo '<div class="value">';
+        $title = $resource->getTitle();
+        $id = $resource->getId();
 
-    foreach ($values as $value) {
-        echo $value . '<br>';
+        $output =  $hyperlink($title . '(' . $id . ')', $this->url('admin/default', ['controller' => $type, 'action' => 'browse'], ['query' => ['id' => $id]]));
+        $results[$type][] = $output;
     }
-    echo '</div>';
 
+    foreach ($results as $ttype => $values){
+        echo '<div class="value">' . $mappedTitle[$ttype] . '</div>'; 
+        echo '<div class="value">';
+
+        foreach ($values as $value) {
+            echo $value . '<br>';
+        }
+        echo '</div>';
     }
 ?>

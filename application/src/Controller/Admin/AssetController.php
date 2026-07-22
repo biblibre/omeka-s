@@ -29,7 +29,6 @@ class AssetController extends AbstractActionController
 
     public function browseAction()
     {
-
         $this->browse()->setDefaults('assets');
         $response = $this->api()->search('assets', $this->params()->fromQuery());
         $this->paginator($response->getTotalResults());
@@ -47,12 +46,11 @@ class AssetController extends AbstractActionController
 
         $view = new ViewModel;
         $view->setTerminal(true);
-
         $view->setVariable('resource', $asset);
 
-        $resourceArray = $this->getRelatedResources();
+        $assetId = $asset->id();
+        $resourceArray = $this->getRelatedResources($assetId);
         $view->setVariable('resource_array', $resourceArray);
-
         return $view;
     }
 
@@ -139,6 +137,7 @@ class AssetController extends AbstractActionController
     public function deleteConfirmAction()
     {
         $resource = $this->api()->read('assets', $this->params('id'))->getContent();
+        $assetId = $resource->id();
 
         $view = new ViewModel;
         $view->setTerminal(true);
@@ -146,7 +145,7 @@ class AssetController extends AbstractActionController
         $view->setVariable('resource', $resource);
         $view->setVariable('resourceLabel', 'asset'); // @translate
 
-        $resourceArray = $this->getRelatedResources();
+        $resourceArray = $this->getRelatedResources($assetId);
         $view->setVariable('resource_array', $resourceArray);
 
         $view->setVariable('partialPath', 'omeka/admin/asset/show-details');
@@ -174,24 +173,19 @@ class AssetController extends AbstractActionController
         );
     }
 
-    public function getRelatedResources()
+    public function getRelatedResources($id)
     {
-        $response = $this->api()->read('assets', $this->params('id'));
-        $asset = $response->getContent();
+        $entityManager = $this->getEvent()
+            ->getApplication()
+            ->getServiceManager()
+            ->get('Omeka\EntityManager');
 
-        $view = new ViewModel;
-        $view->setVariable('resource', $asset);
+        $dql = 'SELECT r FROM Omeka\Entity\Resource r WHERE r.thumbnail = :id';
 
-        $assetId = $asset->id();
-        $conn = $this->entityManager->getConnection();
+        $query = $entityManager->createQuery($dql)
+            ->setParameter('id', $id);
 
-        $resourceArray = $conn->executeQuery(
-            'SELECT id, title, resource_type
-            FROM resource
-            WHERE thumbnail_id = :id',
-            ['id' => $assetId]
-        )->fetchAllAssociative();
-
+        $resourceArray = $query->getResult();
         return $resourceArray;
     }
 }
