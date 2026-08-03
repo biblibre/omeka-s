@@ -175,14 +175,8 @@ class AssetController extends AbstractActionController
 
     public function getRelatedResources($id)
     {
-        $entityManager = $this->getEvent()
-            ->getApplication()
-            ->getServiceManager()
-            ->get('Omeka\EntityManager');
-
         $dql = 'SELECT r FROM Omeka\Entity\Resource r WHERE r.thumbnail = :id';
-
-        $query = $entityManager->createQuery($dql)
+        $query = $this->entityManager->createQuery($dql)
             ->setParameter('id', $id);
 
         $resourceArray = $query->getResult();

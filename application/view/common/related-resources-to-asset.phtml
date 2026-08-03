@@ -1,23 +1,26 @@
 <?php
-    $translate = $this->plugin('translate');
-    $escapeAttr = $this->plugin('escapeHtmlAttr');
-    $hyperlink = $this->plugin('hyperlink');
+$translate = $this->plugin('translate');
+$hyperlink = $this->plugin('hyperlink');
 
-    $mappedResourceName = [
-            'items' => 'item',
-            'item_sets' => 'item-set',
-            'media' => 'media',
+    $mappedResource = [
+        
+        'mappedResourceName' => [
+                    'items' => 'item',
+                    'item_sets' => 'item-set',
+        ],
+        
+        'mappedTitle' => [
+            'item' => 'Items',
+            'item-set' => 'Item sets',
+            'media' => 'Medias',
+        ]
     ];
-    $mappedTitle = [
-        'item' => 'Items',
-        'item-set' => 'Item sets',
-        'media' => 'Medias',
-    ];
-
+    
     $results = []; 
 
     foreach ($resources as $resource) {
-        $type = $mappedResourceName[$resource->getResourceName()];
+
+        $type = isset($mappedResource['mappedResourceName'][$resource->getResourceName()]) ? $mappedResource['mappedResourceName'][$resource->getResourceName()] : $resource->getResourceName();
 
         $title = $resource->getTitle();
         $id = $resource->getId();
@@ -26,8 +29,12 @@
         $results[$type][] = $output;
     }
 
-    foreach ($results as $ttype => $values){
-        echo '<div class="value">' . $mappedTitle[$ttype] . '</div>'; 
+    foreach ($results as $type => $values){
+  
+        echo '<div class="value">';
+        echo $translate($mappedResource['mappedTitle'][$type]);
+        echo '</div>'; 
+
         echo '<div class="value">';
 
         foreach ($values as $value) {

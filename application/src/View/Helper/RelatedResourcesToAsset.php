@@ -6,18 +6,18 @@ use Laminas\View\Helper\AbstractHelper;
 /**
  * View helper for getting resources Id, type and resource_type as an array
  */
-class RelatedRessourcesToAsset extends AbstractHelper
+class RelatedResourcesToAsset extends AbstractHelper
 {
     /**
-     * @param array $resource
+     * @param array $resources
      * @return array
      */
-    public function __invoke($resource = null)
+    public function __invoke($resources = null)
     {
-        return $this->getview()->partial(
+        return $this->getView()->partial(
             'common/related-resources-to-asset',
             [
-                'resources' => $resource,
+                'resources' => $resources,
             ]
         );
     }
