@@ -10,7 +10,7 @@ class RelatedResourcesToAsset extends AbstractHelper
 {
     /**
      * @param array $resources
-     * @return array
+     * @return string
      */
     public function __invoke($resources = null)
     {

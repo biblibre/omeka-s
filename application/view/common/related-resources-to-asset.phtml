@@ -1,45 +1,49 @@
 <?php
 $translate = $this->plugin('translate');
 $hyperlink = $this->plugin('hyperlink');
+$escape = $this->plugin('escapeHtml');
 
-    $mappedResource = [
-        
-        'labels' => [
-            'items' => 'item',
-            'item_sets' => 'item-set',
-        ],
-        
-        'display_titles' => [
-            'item' => 'Items',
-            'item-set' => 'Item sets',
-            'media' => 'Medias',
-        ]
-    ];
+$mappedResource = [
+    'labels' => [
+        'items' => 'item',
+        'item_sets' => 'item-set',
+    ],
     
-    $results = []; 
+    'display_titles' => [
+        'item' => 'Items',
+        'item-set' => 'Item sets',
+        'media' => 'Media',
+    ]
+];
 
-    foreach ($resources as $resource) {
+$results = [];
 
-        $type = isset($mappedResource['labels'][$resource->getResourceName()]) ? $mappedResource['labels'][$resource->getResourceName()] : $resource->getResourceName();
+foreach ($resources as $resource) {
 
-        $title = $resource->getTitle();
-        $id = $resource->getId();
+    $type = isset($mappedResource['labels'][$resource->getResourceName()]) ? $mappedResource['labels'][$resource->getResourceName()] : $resource->getResourceName();
 
-        $output =  $hyperlink($title . '(' . $id . ')', $this->url('admin/default', ['controller' => $type, 'action' => 'browse'], ['query' => ['id' => $id]]));
-        $results[$type][] = $output;
-    }
+    $title = $resource->getTitle();
+    $id = $resource->getId();
 
-    foreach ($results as $type => $values){
-  
-        echo '<div class="value">';
-        echo $translate($mappedResource['display_titles'][$type]);
-        echo '</div>'; 
-
-        echo '<div class="value">';
-
-        foreach ($values as $value) {
-            echo $value . '<br>';
-        }
-        echo '</div>';
-    }
+    $output =  $hyperlink($title . '(' . $id . ')', $this->url('admin/default', ['controller' => $type, 'action' => 'browse'], ['query' => ['id' => $id]]));
+    $results[$type][] = $output;
+}
 ?>
+
+<?php foreach ($results as $type => $values): ?>
+    
+    <div class="value">
+        <?php if(isset($mappedResource['display_titles'][$type])): ?>
+            <?= $escape($translate($mappedResource['display_titles'][$type]));?>
+        <?php else: ?>
+            <?= $escape($translate($type));?>
+        <?php endif; ?>
+    </div> 
+
+    <div class="value">
+        <?php foreach ($values as $value): ?>
+            <?= $value ?><br>
+        <?php endforeach; ?>
+    </div>
+    
+<?php endforeach; ?>
